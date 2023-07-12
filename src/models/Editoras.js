@@ -7,7 +7,8 @@ class Editoras extends Model {
             telefone: DataTypes.BIGINT,
             rua: DataTypes.STRING,
             numero: DataTypes.INTEGER,
-            cep: DataTypes.INTEGER,
+            cep: DataTypes.STRING,
+            bairro: DataTypes.STRING,
             cidade: DataTypes.STRING,
             estado: DataTypes.STRING
         },{

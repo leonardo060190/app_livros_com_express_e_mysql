@@ -30,13 +30,17 @@ module.exports = {
       type: Sequelize.INTEGER,
       allowNull: false
     },
+    bairro: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
     cidade: {
       type: Sequelize.STRING(80),
-      allowNull: true
+      allowNull: false
     },
     estado: {
-      type: Sequelize.STRING(100),
-      allowNull: true
+      type: Sequelize.STRING(50),
+      allowNull: false
     }
 
   })
