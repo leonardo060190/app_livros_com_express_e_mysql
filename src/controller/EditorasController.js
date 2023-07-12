@@ -23,20 +23,21 @@ module.exports = {
 
     //Rota para inserir registros na tabela
     async store(req, res) {
-        const { nome, telefone, rua, numero, cep, cidade, estado } = req.body;
+        const { nome, telefone, rua, numero, cep, bairro, cidade, estado } = req.body;
         const editoras = await Editoras.create({
             nome,
             telefone,
             rua,
             numero,
             cep,
+            bairro,
             cidade,
             estado
         });// findAll = listar dotos os dados / select * from livros
         return res.json(editoras)
         // função que retona todos os dados
     },
-
+ 
     //Rota para alterar um resgistro pelo parametro informado
     async update(req, res) {
         const { id } = req.params;
