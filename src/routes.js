@@ -17,6 +17,7 @@ routes.get('/livros/:titulo', LivrosController.findByid)
 routes.post('/livros', LivrosController.store)
 routes.delete('/livros/:id', LivrosController.delete)
 routes.put('/livros/:id', LivrosController.update)
+//routes.get('/livros/resumoLivros', LivrosController.resumoLivros)
 
 
 ////////////////////////////////////////////////////////////////

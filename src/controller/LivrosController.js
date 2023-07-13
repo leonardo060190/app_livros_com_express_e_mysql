@@ -3,8 +3,8 @@ const Livros = require('../models/Livros')
 
 module.exports = {
     // Rota para retonar todos os registros
-    async index(req, res) {
-        const livros = await Livros.findAll();// findAll = listar dotos os dados / select * from livros
+    async index (req, res) {
+        const livros = await Livros.findAll();
         return res.json(livros)
         // função que retona todos os dados
     },
@@ -15,7 +15,7 @@ module.exports = {
         const livros = await Livros.findAll({
             where: {
 
-                titulo: {[Op.like]: `%${titulo}%`},
+                titulo: { [Op.like]: `%${titulo}%` },
 
             },
         });// findAll = listar dotos os dados / select * from livros
@@ -25,47 +25,82 @@ module.exports = {
 
     //Rota para inserir registros na tabela
     async store(req, res) {
-        const { titulo, autor, ano, preco, foto } = req.body;
-        const livros = await Livros.create({
-            titulo,
-            autor,
-            ano,
-            preco,
-            foto
-        });// findAll = listar dotos os dados / select * from livros
-        return res.json(livros)
-        // função que retona todos os dados
+        try {
+            const { titulo, autor, ano, preco, foto } = req.body;
+            const livros = await Livros.findOne({ where: { titulo } })
+
+            if (livros) {
+                res.status(401).json({ message: 'Este Titulo já existe no Cadastro' });
+            } else {
+                const livros = await Livros.create({
+                    titulo,
+                    autor,
+                    ano,
+                    preco,
+                    foto
+                });
+                res.status(200).json({ livros });
+            }
+
+        } catch (error) {
+            res.status(400).json({ error });
+        }
     },
 
     //Rota para alterar um resgistro pelo parametro informado
     async update(req, res) {
-        const { id } = req.params;
-        const livros = await Livros.update({
+        try {
+            const { id } = req.params;
+            const { preco } = req.body
 
-            preco: req.body.preco
+            const livros = await Livros.findOne({ where: { id } })
 
-        },{
-            where:{
+            if (!livros) {
 
-                id: id
+                res.status(401).json({ message: 'Este Titulo não Consta no Cadastro' });
+
+            } else {
+
+                const livros = await Livros.update({ preco }, { where: { id } })
+                res.status(200).json({ livros });
             }
-        });// findAll = listar dotos os dados / select * from livros
-        return res.json(livros)
-        // função que retona todos os dados
+
+        } catch (error) {
+
+            res.status(400).json({ error });
+        }
+
     },
 
-     //Rota para deletar o registro pelo id
-     async delete(req, res) {
+
+    //Rota para deletar o registro pelo id
+    async delete(req, res) {
         const { id } = req.params;
-        const livros = await Livros.destroy({
-            where: {
-                
-                id: id
-                
-            },
-        });// findAll = listar dotos os dados / select * from livros
-        return res.json(livros)
-        // função que retona todos os dados
+
+        const livros = await Livros.findOne({ where: { id } })
+
+        if (!livros) {
+            res.status(401).json({ message: 'Titulo não Encontrado' });
+        } else {
+            await Livros.destroy({ where: { id } })
+            res.status(200).json({ ok: true });
+        }
     },
-    
+
+    // async resumoLivros (req, res) {
+    //     const livros = await Livros.aggregate('id', 'COUNT', { plain: false, as: 'num' });
+    //     livros.soma = await Livros.sum('preco');
+    //     livros.maior = await Livros.max('preco');
+    //     livros.media = await Livros.average('preco');
+
+    //     return res.status(200).json({
+    //         num: livros.num,
+    //         soma: livros.soma,
+    //         maior: livros.maior,
+    //         media: Number(livros.media.toFixed(2))
+    //     });
+    // }
 }
+
+
+

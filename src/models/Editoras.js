@@ -5,6 +5,7 @@ class Editoras extends Model {
         super.init({
             nome: DataTypes.STRING,
             telefone: DataTypes.BIGINT,
+            email: DataTypes.STRING,
             rua: DataTypes.STRING,
             numero: DataTypes.INTEGER,
             cep: DataTypes.STRING,
