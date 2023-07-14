@@ -1,5 +1,6 @@
 const { Op } = require('sequelize');
 const Livros = require('../models/Livros')
+const sequelize = require('sequelize');
 
 module.exports = {
     // Rota para retonar todos os registros
@@ -86,6 +87,19 @@ module.exports = {
             res.status(200).json({ ok: true });
         }
     },
+
+    async dadosGrafico (req, res) {
+        try {
+        const totalPorAno = await Livros.findAll({ // Obtém ano e soma do preço dos livros, agrupados por ano
+              attributes: ['ano', [sequelize.fn('sum', sequelize.col('preco')), 'total']],
+              group: ['ano']
+            });
+        
+            res.status(200).json(totalPorAno);
+          } catch (error) {
+        res.status(400).json({ msg: error.message }); // Retorna status de erro e mensagem
+          }
+        },
 
     // async resumoLivros (req, res) {
     //     const livros = await Livros.aggregate('id', 'COUNT', { plain: false, as: 'num' });

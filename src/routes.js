@@ -18,7 +18,7 @@ routes.post('/livros', LivrosController.store)
 routes.delete('/livros/:id', LivrosController.delete)
 routes.put('/livros/:id', LivrosController.update)
 //routes.get('/livros/resumoLivros', LivrosController.resumoLivros)
-
+routes.get('/livros/dados/grafico', LivrosController.dadosGrafico)
 
 ////////////////////////////////////////////////////////////////
 

@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');//faz a conversão de JSON para javascript
 const app = express();
 
+
 const routes = require('./routes.js');
 
 
