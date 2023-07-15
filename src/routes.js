@@ -1,8 +1,8 @@
 const express = require('express'); // importa biblioteca do express
 
-const LivrosController = require('./controller/LivrosController');//importa biblioteca do LivrosController
-const AutoresController = require('./controller/AutoresController');//importa biblioteca do AutoresController
-const EditorasController = require('./controller/EditorasController');//importa biblioteca do EditorasController
+const LivrosController = require('./controller/LivrosController');//importa pasta do LivrosController
+const AutoresController = require('./controller/AutoresController');//importa pasta do AutoresController
+const EditorasController = require('./controller/EditorasController');//importa pasta do EditorasController
 
 const routes = express.Router();//importa biblioteca do routes do express routes
 
