@@ -4,7 +4,7 @@ const LivrosController = require('./controller/LivrosController');//importa past
 const AutoresController = require('./controller/AutoresController');//importa pasta do AutoresController
 const EditorasController = require('./controller/EditorasController');//importa pasta do EditorasController
 
-const routes = express.Router();//importa biblioteca do routes do express routes
+const routes = express.Router();//importa biblioteca do routes do express router
 
 routes.get('/', (req, res) => {
     res.send('Olá leonardo')
