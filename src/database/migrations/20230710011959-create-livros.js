@@ -11,7 +11,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       titulo: {
-        type: Sequelize.STRING(80)
+        type: Sequelize.STRING(150),
+        allowNull: false,
       },
       autor: {
         allowNull: false,

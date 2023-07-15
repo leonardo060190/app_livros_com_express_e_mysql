@@ -1,29 +1,55 @@
-const { Op } = require('sequelize');
-const Livros = require('../models/Livros')
-const sequelize = require('sequelize');
+const { Op } = require('sequelize');//Importa a função dos operadores
+const Livros = require('../models/Livros')//Importa o arquivo livros da pasta Models
+const sequelize = require('sequelize');// Importa a biblioteca do Sequelize
 
 module.exports = {
-    // Rota para retonar todos os registros
-    async index (req, res) {
-        const livros = await Livros.findAll();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //Rota para retonar todos os registros
+    async index(req, res) {
+
+        const livros = await Livros.findAll();//Com o método: findAll você pode ler toda a tabela do banco de dados
+
         return res.json(livros)
         // função que retona todos os dados
     },
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // async index(req, res) {
+    //     try {
+    //         const livros = await Livros.findAll();//Com o método: findAll você pode ler toda a tabela do banco de dados
+
+    //         if (!livros) {
+
+    //             res.status(401).json({ message: 'Não Conten nenhum registro' })
+
+    //         }else{
+
+    //            res.status(200).json({ livros }) 
+    //         }
+
+    //     } catch (error) {
+    //         res.status(400).json({ error })
+    //     }
+
+    // },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     //Rota para retonar os registros pelo id
     async findByid(req, res) {
         const { titulo } = req.params;
-        const livros = await Livros.findAll({
+        const livros = await Livros.findAll({//Com o método: findAll você pode ler toda a tabela do banco de dados
             where: {
 
                 titulo: { [Op.like]: `%${titulo}%` },
 
             },
-        });// findAll = listar dotos os dados / select * from livros
+        });
         return res.json(livros)
         // função que retona todos os dados
     },
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     //Rota para inserir registros na tabela
     async store(req, res) {
         try {
@@ -48,6 +74,7 @@ module.exports = {
         }
     },
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////    
     //Rota para alterar um resgistro pelo parametro informado
     async update(req, res) {
         try {
@@ -73,7 +100,7 @@ module.exports = {
 
     },
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     //Rota para deletar o registro pelo id
     async delete(req, res) {
         const { id } = req.params;
@@ -88,33 +115,43 @@ module.exports = {
         }
     },
 
-    async dadosGrafico (req, res) {
+    ////////////////////////////////////////////////////////////////////////////////////////////////        
+    //Rota de dados para o grafico
+    async dadosGrafico(req, res) {
         try {
-        const totalPorAno = await Livros.findAll({ // Obtém ano e soma do preço dos livros, agrupados por ano
-              attributes: ['ano', [sequelize.fn('sum', sequelize.col('preco')), 'total']],
-              group: ['ano']
+            const totalPorAno = await Livros.findAll({//Com o método: findAll você pode ler toda a tabela do banco de dados
+                attributes: ['ano', [sequelize.fn('sum', sequelize.col('preco')), 'total']],// Obtém ano e soma do preço dos livros, agrupados por ano
+                group: ['ano']
             });
-        
+
             res.status(200).json(totalPorAno);
-          } catch (error) {
-        res.status(400).json({ msg: error.message }); // Retorna status de erro e mensagem
-          }
-        },
+        } catch (error) {
+            res.status(400).json({ msg: error.message }); // Retorna status de erro e mensagem
+        }
+    },
 
-    // async resumoLivros (req, res) {
-    //     const livros = await Livros.aggregate('id', 'COUNT', { plain: false, as: 'num' });
-    //     livros.soma = await Livros.sum('preco');
-    //     livros.maior = await Livros.max('preco');
-    //     livros.media = await Livros.average('preco');
+    ////////////////////////////////////////////////////////////////////////////////////////////////    
+    //Rota para o dados de livros
+    // async dadosLivros(req, res) {
+    //     try {
+    //         const livros = await Livros.findAll({
+    //             attributes: [
 
-    //     return res.status(200).json({
-    //         num: livros.num,
-    //         soma: livros.soma,
-    //         maior: livros.maior,
-    //         media: Number(livros.media.toFixed(2))
-    //     });
+    //                 ['id'[sequelize.literal('COUNT(*)'), num]],
+    //                 ['preco'[sequelize.fn('SUM', model.sequelize.col('preco')), soma]],
+    //                 ['preco'[sequelize.fn('MAX', model.sequelize.col('preco')), maior]],
+    //                 ['preco'[sequelize.fn('AVG', model.sequelize.col('preco')), media]]
+
+    //             ],
+    //             group: ['id']
+    //         });
+
+    //         const { num, soma, maior, media } = livros[0];
+    //         res.status(200).json({ num, soma, maior, media: Number(media.toFixed(2)) });
+    //     } catch (error) {
+    //         res.status(400).json({ msg: error.message });
+    //     }
     // }
-}
 
-
+};//fim do export
 
