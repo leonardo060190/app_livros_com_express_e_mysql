@@ -15,11 +15,12 @@ routes.get('/', (req, res) => {
 // Rotas da tabela livros
 routes.get('/livros', LivrosController.index)// rota para buscar todos os livros
 routes.get('/livros/:titulo', LivrosController.findByid)// rota para buscar o livro com o id informado
+routes.get('/livros/dados/grafico', LivrosController.dadosGrafico)// rota para fazer um grafico com os dados da tabela livros
+routes.get('/livros/dados/resumo', LivrosController.dadosLivros)//rota para apresentar os dados da tabela livros com count,sum,max,avg.
 routes.post('/livros', LivrosController.store)// rota para inserir livros na tabela livros
 routes.delete('/livros/:id', LivrosController.delete)// rota para excluir o livro com o id informado
 routes.put('/livros/:id', LivrosController.update)// rota para alterar um dados espacifico de um livro pelo id que foi informado
-routes.get('/livros/dados/grafico', LivrosController.dadosGrafico)// rota para fazer um grafico com os dados da tabela livros
-//routes.get('/livros/dados', LivrosController.dadosLivros)
+
 
 ////////////////////////////////////////////////////////////////
 

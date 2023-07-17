@@ -132,26 +132,26 @@ module.exports = {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////    
     //Rota para o dados de livros
-    // async dadosLivros(req, res) {
-    //     try {
-    //         const livros = await Livros.findAll({
-    //             attributes: [
+    async dadosLivros(req, res) {
+        try {
+            const livros = await Livros.findAll({
+              attributes: [
+                [sequelize.fn('COUNT', sequelize.col('*')), 'num'],
+                [sequelize.fn('SUM', sequelize.col('preco')), 'soma'],
+                [sequelize.fn('MAX', sequelize.col('preco')), 'maior'],
+                [sequelize.fn('AVG', sequelize.col('preco')), 'media'],
+              ],
+            });
+        
+            const { num, soma, maior, media } = livros[0].dataValues;
+            res
+              .status(200)
+              .json({ num, soma, maior, media: Number(media?.toFixed(2)) });
+          } catch (error) {
+            res.status(400).json({ msg: error.message });
+          }
+        }
 
-    //                 ['id'[sequelize.literal('COUNT(*)'), num]],
-    //                 ['preco'[sequelize.fn('SUM', model.sequelize.col('preco')), soma]],
-    //                 ['preco'[sequelize.fn('MAX', model.sequelize.col('preco')), maior]],
-    //                 ['preco'[sequelize.fn('AVG', model.sequelize.col('preco')), media]]
-
-    //             ],
-    //             group: ['id']
-    //         });
-
-    //         const { num, soma, maior, media } = livros[0];
-    //         res.status(200).json({ num, soma, maior, media: Number(media.toFixed(2)) });
-    //     } catch (error) {
-    //         res.status(400).json({ msg: error.message });
-    //     }
-    // }
-
+    
 };//fim do export
 
